@@ -37,7 +37,6 @@ public class Conta {
         try {
             if (saldo >= valor) {
                 saldo = saldo - valor;
-                System.out.println("Retirada de R$" + valor + ". Saldo: R$" + saldo);
                 return true;
             }
             return false;
