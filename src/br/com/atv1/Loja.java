@@ -5,11 +5,13 @@ public class Loja {
 	public String nome;
 	private Conta conta;
     private double saldoFuncis;
+    private Funci[] funci;
 
-    public Loja(String nome, double saldoIni) {
+    public Loja(String nome, double saldoIni, Funci[] funci) {
     	this.nome = nome;
         this.conta = new Conta(nome, saldoIni);
-        this.saldoFuncis = 0;
+        this.saldoFuncis = 1400;
+        this.funci = funci;
     }
 
     public void recebePgto(double valor) {
@@ -18,13 +20,13 @@ public class Loja {
     }
     
     public void pgtoFuncis() {
-        synchronized (this) {
-            if (conta.getSaldo() >= saldoFuncis) {
+    	for(Funci funci: funci)
+        synchronized (conta) {
+            if (conta.getSaldo() >= funci.salario) {
+            	funci.start();
                 conta.debita(saldoFuncis);
-                System.out.println("Pagamento de funcionários da loja " + nome + " realizado");
-            } else {
-                System.out.println("Sem saldo para pagar funcionários na loja " + nome);
+                System.out.println("Pagamento ao funcionário " +funci.getNome() + " da loja " + nome + " realizado");
+            } ;
             }
         }
     }
-}

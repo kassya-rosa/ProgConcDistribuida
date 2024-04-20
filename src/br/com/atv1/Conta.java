@@ -55,13 +55,8 @@ public class Conta {
         }
     }
 
-    public Object getTitular() {
+    public String getTitular() {
         return titular;
     }
-
-	public Object getCliente() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }

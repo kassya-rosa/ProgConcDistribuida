@@ -5,7 +5,7 @@ public class Funci extends Thread {
 	private String nome;
     private Conta ctaSalario;
     private Conta ctaInvest;
-    private double salario;
+    public double salario;
 
     public Funci(String nome, double salario) {
         this.nome = nome;
@@ -14,6 +14,10 @@ public class Funci extends Thread {
         this.ctaInvest = new Conta(nome + " - Investimentos", 0);
     }
 
+    public String getNome() {
+        return nome;
+    }
+    
     @Override
     public void run() {
         synchronized (ctaSalario) {
