@@ -2,29 +2,26 @@ package br.com.atv1;
 
 public class Funci extends Thread {
 
-	private Conta contaProv;
-    private Conta contaInvest;
-    public double salario;
+	private String nome;
+    private Conta ctaSalario;
+    private Conta ctaInvest;
+    private double salario;
 
-    public void Funcionario(Conta contaProv, Conta contaInvest, double salario) {
-        this.contaProv = contaProv;
-        this.contaInvest = contaInvest;
+    public Funci(String nome, double salario) {
+        this.nome = nome;
         this.salario = salario;
+        this.ctaSalario = new Conta(nome + " - Salário", 0);
+        this.ctaInvest = new Conta(nome + " - Investimentos", 0);
     }
-	
+
+    @Override
     public void run() {
-        while (true) {
-            synchronized (contaProv) {
-                if (contaProv.getSaldo() >= salario) {
-                    contaProv.retira(salario);
-                    double investimento = salario * 0.2;
-                    contaInvest.deposita(investimento);
-                    System.out.println("Funci recebeu R$" + salario);
-                    System.out.println("Funci investiu R$" + investimento);
-                    break;
-                }
-            }
+        synchronized (ctaSalario) {
+            ctaSalario.credita(salario);
+            double valorInvestimento = salario * 0.2;
+            ctaSalario.debita(valorInvestimento);
+            ctaInvest.credita(valorInvestimento);
+            System.out.println(nome + " recebeu o salário de R$" + salario + " e investiu R$" + valorInvestimento);
         }
     }
-
 }

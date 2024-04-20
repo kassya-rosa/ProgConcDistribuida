@@ -1,46 +1,67 @@
 package br.com.atv1;
 
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Conta {
 	
-	private double saldo;
-    private ReentrantLock lock;
+	private String titular;
+    private double saldo;
+    private final Lock lock = new ReentrantLock();
 
-    public Conta(double saldoIni) {
+    public Conta(String titular, double saldoIni) {
+        this.titular = titular;
         this.saldo = saldoIni;
-        this.lock = new ReentrantLock();
     }
 
-	public double getSaldo() {
-		// TODO Auto-generated method stub
-		return saldo;
-	}
+    public void credita(double valor) {
+        lock.lock();
+        try {
+            saldo = saldo + valor;
+        } finally {
+            lock.unlock();
+        }
+    }
 
-	public boolean retira(double valor) {
-		// TODO Auto-generated method stub
-		lock.lock();
+    public void debita(double valor) {
+        lock.lock();
+        try {
+            saldo = saldo - valor;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public boolean retirar(double valor) {
+        lock.lock();
         try {
             if (saldo >= valor) {
                 saldo = saldo - valor;
-                System.out.println("Retirada de R$" + valor + ". Saldo atual: R$" + saldo);
+                System.out.println("Retirada de R$" + valor + ". Saldo: R$" + saldo);
                 return true;
             }
             return false;
         } finally {
             lock.unlock();
         }
-	}
-
-	public void deposita(double valor) {
-		// TODO Auto-generated method stub
-		lock.lock();
+    }
+    
+    public double getSaldo() {
+        lock.lock();
         try {
-            saldo = saldo + valor;
-            System.out.println("Depósito de R$" + valor + ". Saldo atual: R$" + saldo);
+            return saldo;
         } finally {
             lock.unlock();
         }
+    }
+
+    public Object getTitular() {
+        return titular;
+    }
+
+	public Object getCliente() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
