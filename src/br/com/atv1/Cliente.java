@@ -11,18 +11,33 @@ public class Cliente extends Thread{
 		this.conta = new Conta(nome,saldoIni);
 	}
 	
-	public void run() {
-		while(conta.getSaldo() > 0) {
-			for (Loja loja : loja) {
-				double cadaCompra = Math.random() > 0.4 ? 100 : 200;
-                if (conta.retirar(cadaCompra)) {
-                    loja.recebePgto(cadaCompra);
-                    System.out.println("Cliente " +nome +" realizou uma compra de R$" + cadaCompra + " na loja " + loja.nome);
-                    break; 
-			}
-		}
+	public String getNome() {
+        return nome;
+    }
+    
+	public Conta getConta() {
+		return conta;
 	}
-		System.out.println("Acabou o dinheiro do Cliente " + nome);
+
+	public void setConta(Conta conta) {
+		this.conta = conta;
 	}
+	
+	 @Override
+	    public void run() {
+	        while (conta.getSaldo() > 0) {
+	            for (Loja loja : loja) {
+	                synchronized (loja) {
+	                    double cadaCompra = Math.random() > 0.4 ? 100 : 200;
+	                    if (conta.retirar(cadaCompra)) {
+	                        loja.recebePgto(cadaCompra);
+	                        System.out.println("Cliente " + nome + " realizou uma compra de R$" + cadaCompra + " na loja " + loja.nome);
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        System.out.println("Acabou o dinheiro do Cliente " + nome);
+	    }
 
 }
