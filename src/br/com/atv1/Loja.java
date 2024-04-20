@@ -10,4 +10,9 @@ public class Loja {
         this.funci = funci;
     }
 
+	public void recebePgto(double cadaCompra) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -12,4 +12,19 @@ public class Funci extends Thread {
         this.salario = salario;
     }
 	
+    public void run() {
+        while (true) {
+            synchronized (contaProv) {
+                if (contaProv.getSaldo() >= salario) {
+                    contaProv.retira(salario);
+                    double investimento = salario * 0.2;
+                    contaInvest.deposita(investimento);
+                    System.out.println("Funci recebeu R$" + salario);
+                    System.out.println("Funci investiu R$" + investimento);
+                    break;
+                }
+            }
+        }
+    }
+
 }
