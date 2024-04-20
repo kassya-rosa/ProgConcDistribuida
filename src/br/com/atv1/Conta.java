@@ -22,7 +22,7 @@ public class Conta {
 		lock.lock();
         try {
             if (saldo >= valor) {
-                saldo -= valor;
+                saldo = saldo - valor;
                 System.out.println("Retirada de R$" + valor + ". Saldo atual: R$" + saldo);
                 return true;
             }
@@ -36,7 +36,7 @@ public class Conta {
 		// TODO Auto-generated method stub
 		lock.lock();
         try {
-            saldo += valor;
+            saldo = saldo + valor;
             System.out.println("Depósito de R$" + valor + ". Saldo atual: R$" + saldo);
         } finally {
             lock.unlock();

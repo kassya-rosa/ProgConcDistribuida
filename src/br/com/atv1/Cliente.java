@@ -12,7 +12,7 @@ public class Cliente extends Thread{
 	public void run() {
 		while(conta.getSaldo() > 0) {
 			for (Loja lojas : lojas) {
-				double cadaCompra = Math.random() > 0.5 ? 100 : 200;
+				double cadaCompra = Math.random() > 0.4 ? 100 : 200;
                 if (conta.retira(cadaCompra)) {
                     lojas.recebePgto(cadaCompra);
                     System.out.println("Cliente realizou uma compra de R$" + cadaCompra + " na loja.");

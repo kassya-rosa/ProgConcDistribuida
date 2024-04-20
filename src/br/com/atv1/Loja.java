@@ -10,9 +10,20 @@ public class Loja {
         this.funci = funci;
     }
 
-	public void recebePgto(double cadaCompra) {
+	public void recebePgto(double valor) {
 		// TODO Auto-generated method stub
-		
+		conta.deposita(valor);
+        verificaPgtoFunci();
 	}
+	
+	public void verificaPgtoFunci() {
+        for (Funci funci : funci) {
+            synchronized (conta) {
+                if (conta.getSaldo() >= funci.salario) {
+                    funci.start();
+                }
+            }
+        }
+    }
 
 }
